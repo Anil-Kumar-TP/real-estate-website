@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Spinner from '../components/Spinner'
+import { toast } from 'react-toastify';
 
 export default function CreateListing () {
     const [geolocationEnabled, setGeolocationEnabled] = useState(true);
@@ -17,9 +18,10 @@ export default function CreateListing () {
         regularPrice: 0,
         discountedPrice: 0,
         latitude: 0,
-        longitude:0,
+        longitude: 0,
+        images: {},
     });
-    const { type, name, bedrooms, bathrooms, parking, furnished, address, description, offer, regularPrice, discountedPrice,latitude,longitude } = formData;
+    const { type, name, bedrooms, bathrooms, parking, furnished, address, description, offer, regularPrice, discountedPrice,latitude,longitude,images } = formData;
     
     function onChange (e) {
         let boolean = null;
@@ -43,9 +45,39 @@ export default function CreateListing () {
         }
     }
 
-    function onSubmit (e) {
+   async function onSubmit (e) {
         e.preventDefault();
         setLoading(true);
+        if (discountedPrice >= regularPrice) {
+            setLoading(false);
+            toast.error("Discount Price needs to be less than regular price");
+            return;
+        }
+
+        if (images.length > 6) {
+            setLoading(false);
+            toast.error("Maximum 6 images are allowed");
+            return;
+        }
+
+        let geolocation = {};
+        let location;
+        if (geolocationEnabled) {
+            const response = await fetch(`https://geocode.maps.co/search&format={json}?q=${address}&api_key=${process.env.REACT_APP_GEOCODE_API_KEY}`);
+            const data = await response.json();
+            console.log(data);
+            geolocation.lat = data[0]?.lat ?? 0;
+            geolocation.lon = data[0]?.lon ?? 0;
+
+            if (data.length === 0) {
+                setLoading(false);
+                toast.error("Please enter a valid address");
+                return;
+            }
+        } else {
+            geolocation.lat = latitude;
+            geolocation.lon = longitude;
+        }
     }
 
     if (loading) {
