@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { getStorage,ref,uploadBytesResumable,getDownloadURL } from 'firebase/storage';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from 'uuid';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp} from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
