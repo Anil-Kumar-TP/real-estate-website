@@ -12,7 +12,7 @@ export default function Profile () {
   const auth = getAuth();
   const navigate = useNavigate();
   const [listings, setListings] = useState(null);
-  const[loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [changeDetail, setChangeDetail] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
@@ -33,7 +33,7 @@ export default function Profile () {
     }));
   }
 
-  async function onSubmit (){
+  async function onSubmit () {
     try {
       if (auth.currentUser.displayName !== name) {
         await updateProfile(auth.currentUser, {
@@ -84,7 +84,7 @@ export default function Profile () {
           </form>
           <button type='submit' className='mt-4 w-full bg-blue-600 text-white uppercase px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'>
             <Link to='/create-listing' className='flex justify-center items-center'>
-              <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2'/>
+              <FcHome className='mr-2 text-3xl bg-red-200 rounded-full p-1 border-2' />
               Sell or rent your home
             </Link>
           </button>
@@ -94,10 +94,10 @@ export default function Profile () {
       <div className='max-w-6xl px-3 mt-6 mx-auto'>
         {!loading && listings.length > 0 && (
           <>
-            <h2 className='text-2xl text-center font-semibold'>My Listings</h2>
-            <ul>
+            <h2 className='text-2xl text-center font-semibold mb-6'>My Listings</h2>
+            <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6'>
               {listings.map((listing) => (
-                <ListingItem key={listing.id} id={listing.id} listing={listing.data}/>
+                <ListingItem key={listing.id} id={listing.id} listing={listing.data} />
               ))}
             </ul>
           </>
