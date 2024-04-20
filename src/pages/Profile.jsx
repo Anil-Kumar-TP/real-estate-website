@@ -79,7 +79,7 @@ export default function Profile () {
         setListings(updatedListings);
         toast.success("Successfully deleted the listing");
       } catch (error) {
-        console.log("Some error",error);
+        console.log("Some error",error.code,error.message);
       }
     }
   }
