@@ -130,7 +130,7 @@ export default function CreateListing () {
                 setLoading(false);
                toast.error("Images not Uploaded");
                return;
-        });
+           });
       
        const formDataCopy = {
            ...formData,
