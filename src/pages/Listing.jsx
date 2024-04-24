@@ -9,13 +9,16 @@ import { FaShare } from 'react-icons/fa';
 import { MdLocationOn } from 'react-icons/md';
 import { FaBed, FaBath, FaParking, FaChair } from 'react-icons/fa';
 import 'swiper/css/bundle';
+import { getAuth } from 'firebase/auth';
+import Contact from 'components/Contact';
 
 export default function Listing () {
-
+    const auth = getAuth();
     const params = useParams();
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(true);
     const [shareLinkCopied, setShareLinkCopied] = useState(false);
+    const [contactLandlord, setContactLandlord] = useState(false);
     
     useEffect(() => {
         async function fetchListing () {
@@ -94,7 +97,16 @@ export default function Listing () {
                           <FaChair className='text-lg mr-1'/>
                         {listing.furnished ? "Furnished" : "Not Furnished"}
                     </li>
-                </ul>
+                  </ul>
+                
+                {listing.useRef !== auth.currentUser.uid && !contactLandlord &&(
+                    <div className='mt-6'>
+                        <button className='px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition du150 ease-in-out' onClick={()=>setContactLandlord(true)}>Contact Landlord</button>
+                    </div>
+                   )}
+                  {contactLandlord && (
+                    <Contact useRef={listing.useRef} listing={listing} />
+                  )}
               </div>
             <div className='bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden'></div>
         </div>
