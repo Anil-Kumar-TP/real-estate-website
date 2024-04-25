@@ -1,7 +1,7 @@
 import Spinner from 'components/Spinner';
 import { db } from '../firebase';
 import { collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import ListingItem from 'components/ListingItem';
 
